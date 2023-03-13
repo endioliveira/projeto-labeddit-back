@@ -84,3 +84,24 @@ export interface LikesDislikeCommentsModel {
     commentId: string,
     like: number
 }
+
+export interface CommentDB {
+    id: string,
+    post_id: string,
+    creator_id: string,
+    content: string,
+    likes: number,
+    created_at: string
+}
+
+export interface CommentModel {
+    id: string,
+    postId: string,
+    content: string,
+    likes: number,
+    createdAt: string,
+    creator: {
+        id: string,
+        nickname: string
+    }
+}

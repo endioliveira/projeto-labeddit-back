@@ -1,10 +1,10 @@
 import { PostDatabase } from "../database/PostDatabase";
 import { Post } from "../models/Post"
 import { BadRequestError } from '../errors/BadRequestError'
-import { CreatePostInputDTO, GetPostsInputDTO, GetPostsOutputDTO } from "../dtos/PostDTO";
+import { CreatePostInputDTO, GetPostById, GetPostsInputDTO, GetPostsOutputDTO } from "../dtos/PostDTO";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenManager } from "../services/TokenManager";
-import {  PostCreatorDB, POST_LIKE } from "../types";
+import {  PostCreatorDB, PostModel, POST_LIKE } from "../types";
 // import { LikeDisliketInputDTO } from "../dtos/LikeDislikeDTO";
 
 export class PostBusiness {
@@ -83,6 +83,31 @@ export class PostBusiness {
 
         const postDB = post.toDBModel()
         await this.postDatabase.insertPost(postDB)
+    }
+
+    public getPostComments = async (input: GetPostById): Promise<PostModel> => {
+
+        const { postId, token } = input
+
+        if (token === undefined) {
+            throw new BadRequestError("Insira o 'token'")
+        }
+
+        const payload = this.tokenManager.getPayload(token)
+
+        if (payload === null) {
+            throw new BadRequestError("O 'token' não é válido!")
+        }
+
+        const postExist = await this.postDatabase.findPostCreatorById(postId)
+
+        if (!postExist) {
+            throw new BadRequestError("O 'id' não foi encontrado!")
+        }
+        
+
+        return postExist
+
     }
 
     // public likeDislikePost = async (input: LikeDisliketInputDTO) => {

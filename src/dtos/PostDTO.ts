@@ -10,3 +10,8 @@ export interface CreatePostInputDTO {
     token: string | undefined,
     content: unknown
 }
+
+export interface GetPostById {
+    postId: string,
+    token: string | undefined
+}
