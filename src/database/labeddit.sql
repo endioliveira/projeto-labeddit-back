@@ -96,9 +96,3 @@ VALUES ("u005", "p001", 1),
        ("u006", "p001", 1);
 
 
-SELECT comments.id,
-comments.content,
-users.id,
-users.nickname
-FROM comments LEFT JOIN users
-ON users.id = comments.creator_id;
