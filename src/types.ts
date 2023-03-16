@@ -1,6 +1,6 @@
 export interface TokenPayload {
     id: string,
-	nickname: string,
+    nickname: string,
 }
 
 export interface UserDB {
@@ -20,15 +20,15 @@ export interface UserModel {
 }
 
 export interface PostDB {
-    id: string, 
+    id: string,
     creator_id: string,
-    content: string, 
+    content: string,
     likes: number,
     comments: number,
-    created_at: string, 
+    created_at: string,
 }
 
-export interface PostCreatorDB extends PostDB{
+export interface PostCreatorDB extends PostDB {
     nickname: string
 }
 
@@ -41,6 +41,35 @@ export interface PostModel {
     creator: {
         id: string
         nickname: string
+    }
+}
+
+export interface PostWithCreator {
+    id: string,
+    creator_id: string,
+    content: string,
+    likes: number,
+    comments: number,
+    created_at: string,
+    nickname: string,
+} 
+
+export interface PostCommentModel {
+    id: string,
+    content: string,
+    likes: number,
+    comments: number,
+    createdAt: string,
+    creator: {
+        id: string
+        nickname: string
+    },
+    commentsPost: {
+        commentId: string,
+        commentPostId: string,
+        commentContent: string,
+        commentLikes: number,
+        commentCreatedAt: string
     }
 }
 
@@ -57,30 +86,22 @@ export enum POST_LIKE {
 
 export interface CommentsDB {
     id: string,
-    post_id: string, 
+    post_id: string,
     creator_id: string,
     content: string,
     likes: number,
     created_at: string
 }
 
-export interface CommentsModel {
-    id: string,
-    postId: string, 
-    creatorId: string,
-    content: string,
-    likes: number,
-    createdAt: string 
-}
 
 export interface LikesDislikeCommentsDB {
-    user_id: string, 
+    user_id: string,
     comment_id: string,
     like: number
 }
 
 export interface LikesDislikeCommentsModel {
-    userId: string, 
+    userId: string,
     commentId: string,
     like: number
 }
@@ -97,11 +118,19 @@ export interface CommentDB {
 export interface CommentModel {
     id: string,
     postId: string,
+    creatorId: string,
     content: string,
     likes: number,
     createdAt: string,
-    creator: {
-        id: string,
-        nickname: string
-    }
+}
+
+export interface PostWithComments {
+    id: string,
+    creator_id: string,
+    content: string,
+    likes: number,
+    comments: number,
+    created_at: string,
+    nickname: string,
+    post_comments: PostCommentModel[]
 }

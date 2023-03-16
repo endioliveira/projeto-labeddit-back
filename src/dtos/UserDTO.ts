@@ -16,3 +16,10 @@ export interface LoginInputDTO {
 export interface LoginOutputDTO {
     token: string
 }
+
+export interface UserDecodejwt {
+    exp: number,
+    iat: number,
+    id: string,
+    nickname: string,
+}

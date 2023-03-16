@@ -4,11 +4,10 @@ export class Comment {
     constructor(
         private id: string,
         private postId: string,
+        private creatorId: string,
         private content: string,
         private likes: number,
         private createdAt: string,
-        private creatorId: string,
-        private nickname: string,
     ) { }
 
     public getId(): string {
@@ -74,13 +73,6 @@ export class Comment {
         this.creatorId = value
     }
 
-    public getNickName(): string {
-        return this.nickname
-    }
-
-    public setNickName(value: string): void {
-        this.nickname = value
-    }
 
     public toDBModel(): CommentDB {
         return {
@@ -97,13 +89,10 @@ export class Comment {
         return {
             id: this.id,
             postId: this.postId,
+            creatorId: this.creatorId,
             content: this.content,
             likes: this.likes,
             createdAt: this.createdAt,
-            creator: {
-                id: this.creatorId,
-                nickname: this.nickname
-            }
         }
     }
 }

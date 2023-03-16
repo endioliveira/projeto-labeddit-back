@@ -1,10 +1,12 @@
 import { PostDatabase } from "../database/PostDatabase";
 import { Post } from "../models/Post"
+import { Comment } from "../models/Comment";
 import { BadRequestError } from '../errors/BadRequestError'
-import { CreatePostInputDTO, GetPostById, GetPostsInputDTO, GetPostsOutputDTO } from "../dtos/PostDTO";
+import { CreateCommentDTO, CreatePostInputDTO, GetCommentById, GetPostById, GetPostsInputDTO, GetPostsOutputDTO, GetPostWithComments } from "../dtos/PostDTO";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenManager } from "../services/TokenManager";
-import {  PostCreatorDB, PostModel, POST_LIKE } from "../types";
+import {  CommentDB, PostCommentModel, PostCreatorDB, PostModel, PostWithComments, POST_LIKE } from "../types";
+import { CommentByPostId } from "../models/CommentByPostId";
 // import { LikeDisliketInputDTO } from "../dtos/LikeDislikeDTO";
 
 export class PostBusiness {
@@ -85,7 +87,7 @@ export class PostBusiness {
         await this.postDatabase.insertPost(postDB)
     }
 
-    public getPostComments = async (input: GetPostById): Promise<PostModel> => {
+    public getPostIdComments = async (input: GetPostById) => {
 
         const { postId, token } = input
 
@@ -99,16 +101,107 @@ export class PostBusiness {
             throw new BadRequestError("O 'token' não é válido!")
         }
 
-        const postExist = await this.postDatabase.findPostCreatorById(postId)
+        const postExist: PostWithComments = await this.postDatabase.findPostIdComments(postId)
 
         if (!postExist) {
             throw new BadRequestError("O 'id' não foi encontrado!")
         }
         
 
-        return postExist
+        // return postExist
+
+             const output: GetPostWithComments = postExist
+
+        return output
+
+
+        // const commentsByPostId: PostCommentModel[] = await this.postDatabase.findCommentsById(postId)
+
+        // // const posts = commentsByPostId.map((commentByPostId) => {
+        // //     const post = new CommentByPostId(
+        // //         commentByPostId.id,
+        // //         commentByPostId.content,
+        // //         commentByPostId.likes,
+        // //         commentByPostId.comments,
+        // //         commentByPostId.createdAt,
+        // //         commentByPostId.creator,
+        // //         commentByPostId.nickname,
+        // //         commentByPostId.commentId,
+        // //         commentByPostId.commentPostId,
+        // //         commentByPostId.commentContent,
+        // //         commentByPostId.commentLikes,
+        // //         commentByPostId.commentCreatedAt,
+        // //     )
+
+        // //     return post.toPostCommentBusinessModel()
+        // // })
+
+        // const output: GetPostsOutputDTO = commentsByPostId
+
+        // return output
 
     }
+    
+    // public getPostComments = async (input: GetPostById): Promise<PostModel> => {
+
+    //     const { postId, token } = input
+
+    //     if (token === undefined) {
+    //         throw new BadRequestError("Insira o 'token'")
+    //     }
+
+    //     const payload = this.tokenManager.getPayload(token)
+
+    //     if (payload === null) {
+    //         throw new BadRequestError("O 'token' não é válido!")
+    //     }
+
+    //     const postExist = await this.postDatabase.findPostById(postId)
+
+    //     if (!postExist) {
+    //         throw new BadRequestError("O 'id' não foi encontrado!")
+    //     }
+        
+
+    //     return postExist
+
+    // }
+   
+
+     public createComment = async (input: CreateCommentDTO): Promise<void> => {
+
+        const { token, postId, creatorId, content } = input
+
+        if (token === undefined) {
+            throw new BadRequestError("Insira o 'token'")
+        }
+
+        const payload = this.tokenManager.getPayload(token)
+
+        if (payload === null) {
+            throw new BadRequestError("O 'token' não é válido!")
+        }
+
+        if (typeof content !== "string") {
+            throw new BadRequestError("O 'content' deve ser string!")
+        }
+
+        const id = this.idGenerator.generate()
+        const createdAt = new Date().toISOString()
+
+        const comment = new Comment(
+            id,
+            postId,
+            creatorId,
+            content,
+            0,
+            createdAt,
+        )
+
+        const commentDB = comment.toDBModel()
+        await this.postDatabase.insertComment(commentDB)
+    }
+
 
     // public likeDislikePost = async (input: LikeDisliketInputDTO) => {
     //     const { idLikeDislike, token, like } = input
