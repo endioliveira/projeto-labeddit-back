@@ -96,3 +96,4 @@ VALUES ("u005", "p001", 1),
        ("u006", "p001", 1);
 
 
+ALTER TABLE posts RENAME COLUMN count_comments TO comments;

@@ -1,6 +1,6 @@
 import { PostCommentModel, PostDB, PostModel } from "../types"
 
-export class Post {
+export class CommentByPostId {
     constructor(
         private id: string,
         private content: string,
@@ -9,6 +9,11 @@ export class Post {
         private createdAt: string,
         private creatorId: string,
         private nickname: string,
+        private commentId: string, 
+        private commentPostId: string,
+        private commentContent: string,
+        private commentLikes: number, 
+        private commentCreatedAt: string
     ) {}
 
     public getId(): string {
@@ -83,7 +88,44 @@ export class Post {
         this.nickname = value
     }
 
+    public getCommentId(): string {
+        return this.commentId
+    }
 
+    public setCommentId(value: string): void {
+        this.commentId = value
+    }
+    public getCommentPostId(): string {
+        return this.commentPostId
+    }
+
+    public setCommentPostId(value: string): void {
+        this.commentPostId = value
+    }
+
+    public getCommentContent(): string {
+        return this.commentContent
+    }
+
+    public setCommentContent(value: string): void {
+        this.commentContent = value
+    }
+
+    public getCommentLikes(): number {
+        return this.commentLikes
+    }
+
+    public setCommentLikes(value: number): void {
+        this.commentLikes = value
+    }
+
+    public getCommentCreatedAt(): string {
+        return this.commentCreatedAt
+    }
+
+    public setCommentCreatedAt(value: string): void {
+        this.commentCreatedAt = value
+    }
 
     public toDBModel(): PostDB {
         return {
@@ -109,7 +151,26 @@ export class Post {
             }
         }
     }
-
+    public toPostCommentBusinessModel(): PostCommentModel {
+        return {
+            id: this.id,
+            content: this.content,
+            likes: this.likes,
+            comments: this.comments,
+            createdAt: this.createdAt,
+            creator: {
+                id: this.creatorId,
+                nickname: this.nickname
+            },
+            commentsPost: {
+                commentId: this.commentId,
+                commentPostId: this.commentPostId,
+                commentContent: this.commentContent,
+                commentLikes: this.commentLikes,
+                commentCreatedAt: this.commentCreatedAt
+            }
+        }
+    }
 
 
 }
