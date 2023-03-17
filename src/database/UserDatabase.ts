@@ -1,4 +1,3 @@
-import { User } from "../models/User"
 import { UserDB } from "../types"
 import { BaseDatabase } from "./BaseDatabase"
 
