@@ -48,14 +48,6 @@ export class CommentByPostId {
         this.likes -= 1
     }
 
-    // public addDislike() {
-    //     this.dislikes += 1
-    // }
-
-    // public removeDislike() {
-    //     this.dislikes -= 1
-    // }
-
     public getComments(): number {
         return this.comments
     }

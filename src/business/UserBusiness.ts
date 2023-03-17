@@ -1,11 +1,11 @@
 import { UserDatabase } from "../database/UserDatabase"
 import { User } from "../models/User"
-import { BadRequestError } from '../errors/BadRequestError'
+import { UserDB } from "../types"
 import { LoginInputDTO, LoginOutputDTO, SignupInputDTO, SignupOutputDTO } from "../dtos/UserDTO"
+import { BadRequestError } from '../errors/BadRequestError'
 import { NotFoundError } from "../errors/NotFoundError"
 import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager, TokenPayload } from "../services/TokenManager"
-import { UserDB } from "../types"
 import { HashManager } from "../services/HashManager"
 
 export class UserBusiness {

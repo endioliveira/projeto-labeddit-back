@@ -1,4 +1,4 @@
-import { PostCommentModel, PostDB, PostModel } from "../types"
+import { PostDB, PostModel } from "../types"
 
 export class Post {
     constructor(
@@ -43,14 +43,6 @@ export class Post {
         this.likes -= 1
     }
 
-    // public addDislike() {
-    //     this.dislikes += 1
-    // }
-
-    // public removeDislike() {
-    //     this.dislikes -= 1
-    // }
-
     public getComments(): number {
         return this.comments
     }
@@ -82,8 +74,6 @@ export class Post {
     public setNickName(value: string): void {
         this.nickname = value
     }
-
-
 
     public toDBModel(): PostDB {
         return {

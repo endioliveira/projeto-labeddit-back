@@ -72,7 +72,6 @@ CREATE TABLE
         post_id TEXT NOT NULL,
         user_id TEXT NOT NULL,
         like INTEGER NOT NULL,
-        -- 1 = like or 0 = dislike
         FOREIGN KEY (post_id) REFERENCES posts(id),
         FOREIGN KEY (user_id) REFERENCES users(id)
     );
@@ -126,7 +125,6 @@ CREATE TABLE
         comment_id TEXT NOT NULL,
         user_id TEXT NOT NULL,
         like INTEGER NOT NULL,
-        -- 1 = like or 0 = dislike
         FOREIGN KEY (user_id) REFERENCES users(id),
         FOREIGN KEY (comment_id) REFERENCES comments(id)
     );
@@ -138,5 +136,3 @@ DROP TABLE likes_dislikes_comments;
 INSERT INTO
     likes_dislikes_comments (user_id, comment_id, like)
 VALUES ("u005", "c001", 0), ("u006", "c002", 0);
-
-ALTER TABLE posts RENAME COLUMN count_comments TO comments;
