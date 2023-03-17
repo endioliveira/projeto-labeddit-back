@@ -28,6 +28,26 @@ export interface PostDB {
     created_at: string,
 }
 
+export interface PostLikesDB {
+    id: string,
+    creator_id: string,
+    content: string,
+    likes: number,
+    dislikes: number,
+    comments: number,
+    created_at: string,
+}
+
+export interface CommentLikesDB {
+    id: string,
+    post_id: string,
+    creator_id: string,
+    content: string,
+    likes: number,
+    dislikes: number,
+    created_at: string,
+}
+
 export interface PostCreatorDB extends PostDB {
     nickname: string
 }
@@ -42,6 +62,27 @@ export interface PostModel {
         id: string
         nickname: string
     }
+}
+export interface PostLikesModel {
+    id: string,
+    content: string,
+    likes: number,
+    dislikes: number,
+    comments: number,
+    createdAt: string,
+    creatorId: string,
+    nickname: string
+
+}
+
+export interface CommentLikesModel {
+    id: string,
+    postId: string,
+    creatorId: string,
+    content: string,
+    likes: number,
+    dislikes: number,
+    createdAt: string,
 }
 
 export interface PostWithCreator {
@@ -83,6 +124,10 @@ export enum POST_LIKE {
     ALREADY_LIKED = "ALREADY LIKED",
     ALREADY_DISLIKED = "ALREADY DISLIKED"
 }
+export enum COMMENT_LIKE {
+    COMMENT_ALREADY_LIKED = "ALREADY LIKED",
+    COMMENT_ALREADY_DISLIKED = "ALREADY DISLIKED"
+}
 
 export interface CommentsDB {
     id: string,
@@ -95,8 +140,8 @@ export interface CommentsDB {
 
 
 export interface LikesDislikeCommentsDB {
-    user_id: string,
     comment_id: string,
+    user_id: string,
     like: number
 }
 
@@ -133,4 +178,15 @@ export interface PostWithComments {
     created_at: string,
     nickname: string,
     post_comments: PostCommentModel[]
+}
+
+
+export interface CommentsWithLikes {
+    id: string,
+    post_id: string,
+    creator_id: string,
+    content: string,
+    likes: number,
+    dislikes: number,
+    created_at: string,
 }
