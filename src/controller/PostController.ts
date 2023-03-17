@@ -2,9 +2,10 @@ import { Request, Response } from "express"
 import { PostBusiness } from "../business/PostBusiness"
 import { BaseError } from "../errors/BaseError"
 import { CreateCommentDTO, CreatePostInputDTO, GetPostById,  GetPostsInputDTO } from "../dtos/PostDTO"
-// import { LikeDisliketInputDTO } from "../dtos/LikeDislikePostDTO"
+import { LikePostInputDTO } from "../dtos/PostLikesDTO"
 import jwt from 'jsonwebtoken'
 import { UserDecodejwt } from "../dtos/UserDTO"
+import { LikeCommentInputDTO } from "../dtos/CommentLikesDTO"
 
 export class PostController {
   constructor(
@@ -103,26 +104,51 @@ export class PostController {
     }
   }
 
-//   public likeDislikePost = async (req: Request, res: Response) => {
-//     try {
-//       const input: LikeDisliketInputDTO = {
-//         idLikeDislike: req.params.id,
-//         token: req.headers.authorization,
-//         like: req.body.like
-//       }
+  public likeDislikePost = async (req: Request, res: Response) => {
+    try {
 
-//       await this.postBusiness.likeDislikePost(input)
+      const input: LikePostInputDTO = {
+        idLikePost: req.params.id,
+        token: req.headers.authorization,
+        like: req.body.like,
+      }
 
-//       res.status(200).end()
+      await this.postBusiness.likeDislikePost(input)
 
-//     } catch (error) {
-//       console.log(error)
+      res.status(200).end()
 
-//       if (error instanceof BaseError) {
-//         res.status(error.statusCode).send(error.message)
-//       } else {
-//         res.status(500).send("Erro inesperado")
-//       }
-//     }
-//   }
+    } catch (error) {
+      console.log(error)
+
+      if (error instanceof BaseError) {
+        res.status(error.statusCode).send(error.message)
+      } else {
+        res.status(500).send("Erro inesperado")
+      }
+    }
+  }
+  public likeDislikeComment = async (req: Request, res: Response) => {
+    try {
+      const input: LikeCommentInputDTO = {
+        idLikeComment: req.body.commentId,
+        token: req.headers.authorization,
+        like: req.body.like
+      }
+
+      await this.postBusiness.likeDislikeComment(input)
+
+      res.status(200).end()
+
+    } catch (error) {
+      console.log(error)
+
+      if (error instanceof BaseError) {
+        res.status(error.statusCode).send(error.message)
+      } else {
+        res.status(500).send("Erro inesperado")
+      }
+    }
+  }
+
+  
 }
